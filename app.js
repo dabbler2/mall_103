@@ -13,8 +13,6 @@ app.get('/', (req, res) => {
     res.send('Welcome to mall_102')
 })
 
-//require('dotenv').config()
 app.listen(8888, () => {
-	//console.log(process.env.TOKENKEY)
     console.log('Server working...')
 })
