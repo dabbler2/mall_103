@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {Goods} = require('../models/')
 const authMiddleware = require('../middlewares/auth-middleware')
-const goodsCheckMiddleware = require('../middlewares/goods-check-middleware')
+const goodsCheckMiddleware = require('../middlewares/goods-check-middleware') // 해당 상품이 있는지 확인
 
 // 상품 목록 조회
 router.get('/goods', async(req, res) => {
@@ -22,22 +22,14 @@ router.post('/goods', authMiddleware, async(req,res) => {
 })
 
 // 상품 상세 조회
-router.get('/goods/:goodsId', async(req, res) => {
-	const {goodsId} = req.params
-	const existGoods = await Goods.findOne({where:{goodsId}})
-	if(!existGoods)
-		return res.status(400).json({errorMessage: '해당 상품이 존재하지 않습니다.'})
-	res.json({goods:existGoods})
+router.get('/goods/:goodsId', goodsCheckMiddleware, async(req, res) => {
+	res.json({goods: res.locals.goods})
 })
 
 // 상품 수정
-router.put('/goods/:goodsId', authMiddleware, async(req, res) => {
-	const {goodsId} = req.params
-	const existGoods = await Goods.findOne({where:{goodsId}})
-	if(!existGoods)
-		return res.status(400).json({errorMessage: '해당 상품이 존재하지 않습니다.'})
+router.put('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, res) => {
 	const {userId} = res.locals.user
-	console.log(userId,existGoods.UserId)
+	const existGoods = res.locals.goods
 	if(userId!=existGoods.UserId)
 		return res.status(401).json({errorMessage: '수정 권한이 없습니다.'})
 	const {goodsName,comment,isAvailable} = req.body
@@ -50,13 +42,9 @@ router.put('/goods/:goodsId', authMiddleware, async(req, res) => {
 })
 
 // 상품 삭제
-router.delete('/goods/:goodsId', authMiddleware, async(req, res) => {
-	const {goodsId} = req.params
-	const existGoods = await Goods.findOne({where:{goodsId}})
-	if(!existGoods)
-		return res.status(400).json({errorMessage: '해당 상품이 존재하지 않습니다.'})
+router.delete('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, res) => {
 	const {userId} = res.locals.user
-	console.log(userId,existGoods.UserId)
+	const existGoods = res.locals.goods
 	if(userId!=existGoods.UserId)
 		return res.status(401).json({errorMessage: '삭제 권한이 없습니다.'})
 	await existGoods.destroy()
