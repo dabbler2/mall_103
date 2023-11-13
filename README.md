@@ -2,11 +2,15 @@
 
 ## .env list
 
-HASH_KEY
-TOKEN_KEY
-DB_PASSWORD
-DB_NAME
-DB_HOST
+HASH_KEY: 비밀번호 해싱에 사용할 비밀키
+
+TOKEN_KEY: JWT 토큰에 사용할 비밀키
+
+DB_PASSWORD: 데이터베이스 비밀번호
+
+DB_NAME: 데이터베이스 이름
+
+DB_HOST: 데이터베이스 IP 또는 도메인
 
 ## API documentation
 
