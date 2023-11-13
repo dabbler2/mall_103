@@ -4,7 +4,7 @@ const {Goods} = require('../models/')
 const authMiddleware = require('../middlewares/auth-middleware')
 const goodsCheckMiddleware = require('../middlewares/goods-check-middleware') // 해당 상품이 있는지 확인
 
-// 상품 목록 조회
+// 전체 상품 목록 조회
 router.get('/goods', async(req, res) => {
 	const {sort} = req.query
 	const goods = await Goods.findAll({order: [['createdAt', sort==='ASC'? 'ASC':'DESC']], attributes: {exclude: ['UserId']}})
@@ -21,7 +21,7 @@ router.get('/goods/:goodsId', goodsCheckMiddleware, async(req, res) => {
 router.post('/goods', authMiddleware, async(req,res) => {
 	const {goodsName,comment} = req.body
 	if(!goodsName)
-		return res.status(400).json({errorMessage: '상품명을 입력해주세요.'})
+		return res.status(400).json({message: '상품명을 입력해주세요.'})
 	const {userId,userName} = res.locals.user
 	await Goods.create({goodsName,comment:(comment || ''),UserName:userName,UserId:userId})
 	res.status(201).json({message: '상품이 등록되었습니다.'})
@@ -32,7 +32,7 @@ router.put('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, r
 	const {userId} = res.locals.user
 	const existGoods = res.locals.goods
 	if(userId!=existGoods.UserId)
-		return res.status(401).json({errorMessage: '수정 권한이 없습니다.'})
+		return res.status(401).json({message: '수정 권한이 없습니다.'})
 	const {goodsName,comment,isAvailable} = req.body
 	await existGoods.update({
 		goodsName: goodsName || existGoods.goodsName,
@@ -47,7 +47,7 @@ router.delete('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req
 	const {userId} = res.locals.user
 	const existGoods = res.locals.goods
 	if(userId!=existGoods.UserId)
-		return res.status(401).json({errorMessage: '삭제 권한이 없습니다.'})
+		return res.status(401).json({message: '삭제 권한이 없습니다.'})
 	await existGoods.destroy()
 	res.method = 'GET'
 	res.redirect(303,'/api/goods') // 삭제하고 상품 목록 조회로 넘어감

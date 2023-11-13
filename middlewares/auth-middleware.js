@@ -7,15 +7,15 @@ module.exports = async (req,res,next) => {
 	try{
 		const [authType,token] = authorization.split(' ')
 		if(authType!=='Bearer' || !token)
-			return res.status(401).json({errorMessage: '로그인이 필요한 페이지입니다.'})
-		const {userId} = jwt.verify(token,process.env.TOKENKEY)
+			return res.status(401).json({message: '로그인이 필요한 페이지입니다.'})
+		const {userId} = jwt.verify(token,process.env.TOKEN_KEY)
 		const existUser = await Users.findByPk(userId)
 		if(!existUser)
-			return res.status(401).json({errorMessage: '로그인이 필요한 페이지입니다.'})
+			return res.status(401).json({message: '로그인이 필요한 페이지입니다.'})
 		res.locals.user = existUser
 		next()
 	}catch(e){
 		//console.log(e)
-		return res.status(401).json({errorMessage: '로그인이 필요한 페이지입니다.'})
+		return res.status(401).json({message: '로그인이 필요한 페이지입니다.'})
 	}
 }

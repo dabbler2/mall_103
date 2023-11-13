@@ -8,10 +8,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use("/api",[goodsRouter,usersRouter])
-app.get('/', (req, res) => {
-    res.send('Welcome to mall_103')
-})
 
-app.listen(8888, () => {
-    console.log('Server working...')
-})
+app.get('/', (req, res) => res.send('Welcome to mall_103'))
+app.listen(8888, () => console.log('Server working...'))
