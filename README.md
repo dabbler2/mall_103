@@ -41,3 +41,7 @@
 	</tr>
 </table> -->
 </details>
+
+## ERD diagram
+
+https://www.erdcloud.com/d/rg4sekc8Sb7rKoPZf
