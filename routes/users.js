@@ -14,9 +14,6 @@ router.get('/0', async(req,res) => {
 	res.json({userList})
 })
 
-// 비밀번호 해시 생성
-let hash = (pw,key) => sha256(String.fromCharCode(...[...pw].map((c,i) => c.charCodeAt()+key.charCodeAt(i%key.length))))
-
 // 회원가입
 router.post('/users', async(req,res) => {
 	const {email,userName,password,confirmPW} = req.body
@@ -31,7 +28,7 @@ router.post('/users', async(req,res) => {
 	const existUser = await Users.findOne({where:{email}})
 	if(existUser)
 		return res.status(400).json({message: "이메일이 이미 사용중입니다."})
-	const hashPW = hash(password,process.env.HASH_KEY)
+	const hashPW = sha256(password)
 	await Users.create({email,userName,hashPW})
 	res.status(201).json({email,userName,message:"회원가입이 완료되었습니다."})
 })
@@ -42,7 +39,7 @@ router.post('/auth', async(req,res) => {
 	const existUser = await Users.findOne({where:{email}})
 	if(!existUser)
 		return res.status(400).json({message: "이메일이나 비밀번호를 확인해주세요."})
-	const hashPW = hash(password,process.env.HASH_KEY)
+	const hashPW = sha256(password)
 	if(existUser.hashPW!==hashPW)
 		return res.status(400).json({message: "이메일이나 비밀번호를 확인해주세요."})
 	const token = jwt.sign({userId:existUser.userId},process.env.TOKEN_KEY,{expiresIn: '12h'})
