@@ -2,7 +2,7 @@
 
 ## .env list
 
-HASH_KEY: 비밀번호 해싱에 사용할 비밀키
+<!-- HASH_KEY: 비밀번호 해싱에 사용할 비밀키 -->
 
 TOKEN_KEY: JWT 토큰에 사용할 비밀키
 
