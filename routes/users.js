@@ -19,10 +19,10 @@ let hash = (pw,key) => sha256(String.fromCharCode(...[...pw].map((c,i) => c.char
 
 // 회원가입
 router.post('/users', async(req,res) => {
-	const {email,name,password,confirmPW} = req.body
+	const {email,userName,password,confirmPW} = req.body
 	if(!email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) || email.length>100)
 		return res.status(400).json({errorMessage: "이메일이 형식에 맞지 않거나 100글자를 초과합니다."})
-	if(!name || name.length>50)
+	if(!userName || userName.length>50)
 		return res.status(400).json({errorMessage: "이름은 1글자 이상 50글자 이하여야 합니다."})
 	if(password.length<6 || password.length>20)
 		return res.status(400).json({errorMessage: "비밀번호는 6글자 이상 20글자 이하여야 합니다."})
@@ -32,8 +32,8 @@ router.post('/users', async(req,res) => {
 	if(existUser)
 		return res.status(400).json({errorMessage: (existUser.email===email? "이메일이":"ID가")+" 이미 사용중입니다."})
 	const hashPW = hash(password,process.env.HASHKEY)
-	await Users.create({email,name,hashPW})
-	res.json({email,name,message:"회원가입이 완료되었습니다."})
+	await Users.create({email,userName,hashPW})
+	res.json({email,userName,message:"회원가입이 완료되었습니다."})
 })
 
 // 로그인
@@ -53,8 +53,8 @@ router.post('/auth', async(req,res) => {
 
 // 내 정보
 router.get('/users/me', authMiddleware, async(req,res) => {
-	const {email,name,createdAt,updatedAt} = res.locals.user
-	res.json({email,name,createdAt,updatedAt})
+	const {email,userName,createdAt,updatedAt} = res.locals.user
+	res.json({email,userName,createdAt,updatedAt})
 })
 
 module.exports = router

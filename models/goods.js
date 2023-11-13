@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
 		type: DataTypes.BOOLEAN,
 		defaultValue: true
 	},
-    UserId: DataTypes.INTEGER
+    UserId: DataTypes.INTEGER,
+	UserName: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Goods',

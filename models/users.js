@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 		autoIncrement: true
     },
     email: DataTypes.STRING,
-    name: DataTypes.STRING,
+    userName: DataTypes.STRING,
     hashPW: DataTypes.STRING
   }, {
     sequelize,
