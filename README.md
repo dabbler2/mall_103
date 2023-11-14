@@ -3,8 +3,11 @@
 ## .env variables
 
 TOKEN_KEY
+
 DB_PW
+
 DB_NAME
+
 DB_HOST
 
 ## API documentation
