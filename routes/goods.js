@@ -8,13 +8,16 @@ const goodsCheckMiddleware = require('../middlewares/goods-check-middleware') //
 router.get('/goods', async(req, res) => {
 	const {sort} = req.query
 	const goods = await Goods.findAll({order: [['createdAt', sort==='ASC'? 'ASC':'DESC']], attributes: {exclude: ['UserID']}})
-	res.json({goods})
+	res.json({goods: goods.map(unit => {
+		const {isAvailable,...item} = unit.dataValues
+		return {...item,isAvailable: isAvailable? 'FOR_SALE':'SOLD_OUT'}
+	})})
 })
 
 // 상품 상세 조회
 router.get('/goods/:goodsID', goodsCheckMiddleware, async(req, res) => {
-	const {UserID,...item} = res.locals.goods.dataValues
-	res.json({item})
+	const {UserID,isAvailable,...item} = res.locals.goods.dataValues
+	res.json({...item,isAvailable: isAvailable? 'FOR_SALE':'SOLD_OUT'})
 })
 
 // 상품 등록
