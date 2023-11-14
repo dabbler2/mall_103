@@ -12,13 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 	  this.hasMany(models.Goods, {
-        sourceKey: 'userId',
-        foreignKey: 'UserId'
+        sourceKey: 'userID',
+        foreignKey: 'UserID'
       })
     }
   }
   Users.init({
-	userId: {
+	userID: {
 		allowNull: false,
         type: DataTypes.INTEGER,
         primaryKey: true,

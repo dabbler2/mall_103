@@ -42,7 +42,7 @@ router.post('/auth', async(req,res) => {
 	const hashPW = sha256(password)
 	if(existUser.hashPW!==hashPW)
 		return res.status(400).json({message: "이메일이나 비밀번호를 확인해주세요."})
-	const token = jwt.sign({userId:existUser.userId},process.env.TOKEN_KEY,{expiresIn: '12h'})
+	const token = jwt.sign({userID:existUser.userID},process.env.TOKEN_KEY,{expiresIn: '12h'})
 	res.cookie("authorization",`Bearer ${token}`)
 	res.json({message:"로그인에 성공했습니다."})
 })

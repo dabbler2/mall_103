@@ -7,13 +7,13 @@ const goodsCheckMiddleware = require('../middlewares/goods-check-middleware') //
 // 전체 상품 목록 조회
 router.get('/goods', async(req, res) => {
 	const {sort} = req.query
-	const goods = await Goods.findAll({order: [['createdAt', sort==='ASC'? 'ASC':'DESC']], attributes: {exclude: ['UserId']}})
+	const goods = await Goods.findAll({order: [['createdAt', sort==='ASC'? 'ASC':'DESC']], attributes: {exclude: ['UserID']}})
 	res.json({goods})
 })
 
 // 상품 상세 조회
-router.get('/goods/:goodsId', goodsCheckMiddleware, async(req, res) => {
-	const {UserId,...item} = res.locals.goods.dataValues
+router.get('/goods/:goodsID', goodsCheckMiddleware, async(req, res) => {
+	const {UserID,...item} = res.locals.goods.dataValues
 	res.json({item})
 })
 
@@ -22,16 +22,16 @@ router.post('/goods', authMiddleware, async(req,res) => {
 	const {goodsName,comment} = req.body
 	if(!goodsName)
 		return res.status(400).json({message: '상품명을 입력해주세요.'})
-	const {userId,userName} = res.locals.user
-	await Goods.create({goodsName,comment:(comment || ''),UserName:userName,UserId:userId})
+	const {userID,userName} = res.locals.user
+	await Goods.create({goodsName,comment:(comment || ''),UserName:userName,UserID:userID})
 	res.status(201).json({message: '상품이 등록되었습니다.'})
 })
 
 // 상품 수정
-router.put('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, res) => {
-	const {userId} = res.locals.user
+router.put('/goods/:goodsID', authMiddleware, goodsCheckMiddleware, async(req, res) => {
+	const {userID} = res.locals.user
 	const existGoods = res.locals.goods
-	if(userId!=existGoods.UserId)
+	if(userID!=existGoods.UserID)
 		return res.status(401).json({message: '수정 권한이 없습니다.'})
 	const {goodsName,comment,isAvailable} = req.body
 	await existGoods.update({
@@ -43,10 +43,10 @@ router.put('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, r
 })
 
 // 상품 삭제
-router.delete('/goods/:goodsId', authMiddleware, goodsCheckMiddleware, async(req, res) => {
-	const {userId} = res.locals.user
+router.delete('/goods/:goodsID', authMiddleware, goodsCheckMiddleware, async(req, res) => {
+	const {userID} = res.locals.user
 	const existGoods = res.locals.goods
-	if(userId!=existGoods.UserId)
+	if(userID!=existGoods.UserID)
 		return res.status(401).json({message: '삭제 권한이 없습니다.'})
 	await existGoods.destroy()
 	res.method = 'GET'

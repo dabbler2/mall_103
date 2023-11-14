@@ -12,13 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 	  this.belongsTo(models.Users, {
-        targetKey: 'userId',
-        foreignKey: 'UserId'
+        targetKey: 'userID',
+        foreignKey: 'UserID'
       })
     }
   }
   Goods.init({
-	  goodsId: {
+	  goodsID: {
 		allowNull: false,
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 		type: DataTypes.BOOLEAN,
 		defaultValue: true
 	},
-    UserId: DataTypes.INTEGER,
+    UserID: DataTypes.INTEGER,
 	UserName: DataTypes.STRING
   }, {
     sequelize,

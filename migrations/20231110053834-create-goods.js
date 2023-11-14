@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Goods', {
-      goodsId: {
+      goodsID: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -20,12 +20,12 @@ module.exports = {
 		  allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      UserId: {
+      UserID: {
 		  allowNull: false,
         type: Sequelize.INTEGER,
 		references: {
           model: 'Users',
-          key: 'userId'
+          key: 'userID'
         },
         onDelete: 'CASCADE'
       },
