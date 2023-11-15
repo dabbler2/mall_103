@@ -8,12 +8,6 @@ require('dotenv').config()
 
 const router = express.Router()
 
-// 전체 유저 확인용
-router.get('/0', async (req, res) => {
-    const userList = await Users.findAll()
-    res.json({userList})
-})
-
 // 회원가입
 router.post('/users', async (req, res) => {
     const {email, userName, password, confirmPW} = req.body
