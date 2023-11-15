@@ -10,4 +10,4 @@ app.use(cookieParser())
 app.use('/api', [goodsRouter, usersRouter])
 
 app.get('/', (req, res) => res.send('Welcome to mall_103'))
-app.listen(process.env.PORT, () => console.log('Server working...'))
+app.listen(process.env.PORT || 8888, () => console.log('Server working...'))
