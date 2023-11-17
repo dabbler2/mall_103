@@ -22,7 +22,7 @@ https://docs.google.com/spreadsheets/d/19t8fuKcx-vdLqZh0fNnIGP5pSiOCLSaAn128T6zu
 
 https://www.erdcloud.com/d/rg4sekc8Sb7rKoPZf
 
-<!--
+
 ## 더 고민해 보기
 
 1. **암호화 방식**
@@ -78,20 +78,19 @@ https://www.erdcloud.com/d/rg4sekc8Sb7rKoPZf
 5. **리팩토링**
 - MongoDB, Mongoose를 이용해 구현되었던 코드를 MySQL, Sequelize로 변경하면서, 많은 코드 변경이 있었나요? 주로 어떤 코드에서 변경이 있었나요?
 
-  모델을 구성하고 연동하는 부분에서 많은 변화가 있었다.
+  모델을 구성하고 DB와 연동하는 부분에서 많은 변화가 있었다.
 
 - 만약 이렇게 DB를 변경하는 경우가 또 발생했을 때, 코드 변경을 보다 쉽게 하려면 어떻게 코드를 작성하면 좋을 지 생각나는 방식이 있나요? 있다면 작성해 주세요.
 
-  
+  DB와 연동하는 부분들만 따로 빼서 모아놓으면 수정이 좀 더 쉬워질 것으로 생각한다.
 
 6. **서버 장애 복구**
 - 현재는 PM2를 이용해 Express 서버의 구동이 종료 되었을 때에 Express 서버를 재실행 시켜 장애를 복구하고 있습니다. 만약 단순히 Express 서버가 종료 된 것이 아니라, AWS EC2 인스턴스(VM, 서버 컴퓨터)가 재시작 된다면, Express 서버는 재실행되지 않을 겁니다. AWS EC2 인스턴스가 재시작 된 후에도 자동으로 Express 서버를 실행할 수 있게 하려면 어떤 조치를 취해야 할까요?
 (Hint: PM2에서 제공하는 기능 중 하나입니다.)
 
-  https://pm2.keymetrics.io/docs/usage/startup/ 에 따르면
-
-  pm2 startup
-  pm2 save
+  https://pm2.keymetrics.io/docs/usage/startup/ 에 따르면 
+  pm2 startup을 입력하고 아래 나오는 명령어 역시 입력한 후
+  원하는 프로그램들을 실행한 뒤 pm2 save를 입력하면 서버 리부트 이후 자동으로 해당 프로그램들이 실행된다.
 
 7. **개발 환경**
 - nodemon은 어떤 역할을 하는 패키지이며, 사용했을 때 어떤 점이 달라졌나요?
